@@ -1,0 +1,513 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1f5b52"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<style>html,body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style></head><body><title>백영희 설교록</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: an archive desk — a top search line, a left work pane (찾기 결과·목록) and a right reading pane (설교 원문). Phones stack the panes and switch between them. */
+:root{
+  --paper:#f3f4f1; --sheet:#fbfbf9; --ink:#1d2321; --soft:#5d6662; --faint:#8b938f;
+  --rule:#d9ddd8; --accent:#1f5b52; --accent-ink:#ffffff; --accent-soft:#dfeae6;
+  --mark:#f4e19a; --mark-ink:#1d2321; --warn:#8a4b14;
+  --serif:"Gowun Batang","Noto Serif KR","Batang","바탕",serif;
+  --sans:"IBM Plex Sans KR","Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#141716; --sheet:#1b1f1e; --ink:#e4e7e3; --soft:#a5ada9; --faint:#7a827e;
+  --rule:#2f3533; --accent:#6fb8a9; --accent-ink:#0f1614; --accent-soft:#213330;
+  --mark:#6b5a17; --mark-ink:#fff7d6; --warn:#e2a46b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#141716; --sheet:#1b1f1e; --ink:#e4e7e3; --soft:#a5ada9; --faint:#7a827e;
+  --rule:#2f3533; --accent:#6fb8a9; --accent-ink:#0f1614; --accent-soft:#213330;
+  --mark:#6b5a17; --mark-ink:#fff7d6; --warn:#e2a46b; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;word-break:keep-all;overflow-wrap:anywhere}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app{display:flex;flex-direction:column;height:100%}
+header.top{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;padding:.7rem 16px;border-bottom:1px solid var(--rule);background:var(--sheet)}
+.brand{display:flex;align-items:baseline;gap:.5rem;min-width:0}
+.brand b{font-family:var(--serif);font-size:1.25rem;letter-spacing:.02em}
+.brand small{color:var(--faint);font-size:.78rem;white-space:nowrap}
+nav.tabs{display:flex;gap:.25rem;flex-wrap:wrap}
+nav.tabs button{border:1px solid transparent;background:none;padding:.35rem .75rem;border-radius:999px;color:var(--soft);font-weight:500}
+nav.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+nav.tabs button:hover:not([aria-selected="true"]){border-color:var(--rule)}
+.loadstat{margin-left:auto;font-size:.78rem;color:var(--faint);display:flex;align-items:center;gap:.5rem;min-width:0}
+.bar{width:7rem;height:4px;background:var(--rule);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.main{flex:1;display:grid;grid-template-columns:minmax(0,27rem) minmax(0,1fr);min-height:0}
+.pane{overflow:auto;min-width:0;min-height:0}
+.work{border-right:1px solid var(--rule);padding:1rem 16px 3rem}
+.reader{background:var(--sheet);padding:1.2rem 16px 4rem}
+h2.ph{font-size:1.05rem;margin:.2rem 0 .8rem}
+.hint{color:var(--soft);font-size:.85rem;margin:.3rem 0 .8rem}
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.field{flex:1;min-width:10rem;border:1px solid var(--rule);background:var(--sheet);border-radius:6px;padding:.5rem .7rem}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:6px;padding:.5rem .9rem;font-weight:600}
+.btn.ghost{background:none;color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:default}
+select.field{flex:0 1 auto;min-width:0}
+.filters{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.filters select,.filters input{border:1px solid var(--rule);background:var(--sheet);border-radius:6px;padding:.3rem .5rem;font-size:.83rem;min-width:0}
+.filters input{width:5.2rem}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0}
+.chip{border:1px solid var(--rule);background:var(--sheet);border-radius:999px;padding:.2rem .65rem;font-size:.83rem}
+.chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.chip .x{margin-left:.3rem;color:var(--faint)}
+.grid66{display:grid;grid-template-columns:repeat(auto-fill,minmax(5.6rem,1fr));gap:.3rem}
+.grid66 button,.chgrid button{border:1px solid var(--rule);background:var(--sheet);border-radius:5px;padding:.35rem .3rem;font-size:.82rem;text-align:left;display:flex;justify-content:space-between;gap:.2rem}
+.grid66 button span,.chgrid button span{color:var(--faint);font-variant-numeric:tabular-nums}
+.grid66 button:disabled{opacity:.35;cursor:default}
+.grid66 button.sel,.chgrid button.sel{border-color:var(--accent);background:var(--accent-soft)}
+.sect{font-size:.75rem;letter-spacing:.08em;color:var(--faint);margin:1rem 0 .4rem}
+.chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(3.6rem,1fr));gap:.3rem;margin:.5rem 0}
+ul.list{list-style:none;margin:.4rem 0;padding:0}
+ul.list li{border-bottom:1px solid var(--rule)}
+ul.list li>button{width:100%;text-align:left;background:none;border:0;padding:.6rem .2rem;display:grid;gap:.15rem}
+ul.list li>button:hover{background:var(--accent-soft)}
+ul.list li.cur>button{background:var(--accent-soft)}
+.t1{font-weight:600;font-size:.93rem}
+.t2{font-size:.78rem;color:var(--soft);font-variant-numeric:tabular-nums}
+.snip{font-family:var(--serif);font-size:.85rem;color:var(--soft);line-height:1.6}
+mark{background:var(--mark);color:var(--mark-ink);border-radius:2px;padding:0 .05em}
+.cnt{font-size:.75rem;color:var(--accent);font-weight:600}
+.years{display:flex;flex-wrap:wrap;gap:.3rem;margin:.4rem 0}
+.years button{border:1px solid var(--rule);background:var(--sheet);border-radius:5px;padding:.25rem .5rem;font-size:.82rem;font-variant-numeric:tabular-nums}
+.years button.sel{border-color:var(--accent);background:var(--accent-soft)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;margin:.5rem 0;font-variant-numeric:tabular-nums}
+.cal .dh{font-size:.72rem;color:var(--faint);text-align:center;padding:.2rem 0}
+.cal button{min-height:2.6rem;border:1px solid var(--rule);background:var(--sheet);border-radius:4px;font-size:.8rem;padding:.15rem;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px}
+.cal button:disabled{background:none;border-color:transparent;color:var(--faint);cursor:default}
+.cal button i{font-style:normal;font-size:.62rem;color:var(--accent);font-weight:700}
+.cal button.sel{border-color:var(--accent);background:var(--accent-soft)}
+.months{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.3rem}
+.months button{border:1px solid var(--rule);background:var(--sheet);border-radius:5px;padding:.3rem;font-size:.8rem}
+.months button span{display:block;color:var(--faint);font-size:.7rem}
+.months button.sel{border-color:var(--accent);background:var(--accent-soft)}
+.months button:disabled{opacity:.35}
+.spark{width:100%;height:74px;display:block;margin:.4rem 0}
+.spark rect{fill:var(--accent)}
+.spark text{fill:var(--faint);font-size:9px;font-family:var(--sans)}
+.summary{background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:.8rem 1rem;margin:.8rem 0;font-family:var(--serif);font-size:.95rem;line-height:1.75}
+.summary h3,.summary h4{font-family:var(--sans);font-size:.95rem;margin:1rem 0 .3rem;color:var(--accent)}
+.summary p{margin:.4rem 0}
+.summary ul{margin:.3rem 0;padding-left:1.2rem}
+.summary a.ref{font-family:var(--sans);font-size:.72rem;text-decoration:none;color:var(--accent);background:var(--accent-soft);border-radius:3px;padding:0 .25em;margin:0 .1em;vertical-align:1px}
+.note{font-size:.8rem;color:var(--warn)}
+.empty{color:var(--faint);font-size:.88rem;padding:1rem 0}
+/* reader */
+.rhead{max-width:40em;margin:0 auto;border-bottom:1px solid var(--rule);padding-bottom:.8rem}
+.rhead .eb{font-size:.78rem;color:var(--accent);letter-spacing:.04em;font-weight:600}
+.rhead h1{font-family:var(--serif);font-size:1.8rem;line-height:1.3;margin:.3rem 0 .4rem;text-wrap:balance}
+.rhead .meta{color:var(--soft);font-size:.86rem;font-variant-numeric:tabular-nums}
+.rtools{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.7rem}
+.rtools button{border:1px solid var(--rule);background:var(--paper);border-radius:5px;padding:.25rem .6rem;font-size:.8rem}
+.rtools .hitnav{display:flex;align-items:center;gap:.3rem;font-size:.8rem;color:var(--soft)}
+.rbody{max-width:40em;margin:1rem auto 0;font-family:var(--serif);font-size:var(--fs,1.06rem);line-height:1.95}
+.rbody p{margin:0 0 1em}
+.rbody mark.now{outline:2px solid var(--accent)}
+.related{max-width:40em;margin:2rem auto 0;border-top:1px solid var(--rule);padding-top:.8rem}
+.welcome{max-width:36em;margin:2rem auto;font-family:var(--serif)}
+.welcome h1{font-size:2rem;margin:.2rem 0 .6rem}
+.welcome p{color:var(--soft);line-height:1.8}
+.welcome dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(7rem,1fr));gap:.8rem;margin:1.5rem 0;font-family:var(--sans)}
+.welcome dt{font-size:.75rem;color:var(--faint)}
+.welcome dd{margin:0;font-size:1.4rem;font-weight:700;font-variant-numeric:tabular-nums}
+.welcome ol{padding-left:1.2rem;color:var(--soft);font-family:var(--sans);font-size:.9rem;line-height:1.8}
+.back{display:none}
+.toast{position:fixed;left:50%;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:.45rem .9rem;border-radius:6px;font-size:.85rem;z-index:50}
+@media (max-width:860px){
+  .main{grid-template-columns:minmax(0,1fr)}
+  .work{border-right:0}
+  body.reading .work{display:none}
+  body:not(.reading) .reader{display:none}
+  .back{display:inline-block}
+  .loadstat{margin-left:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand"><b>백영희 설교록</b><small id="brandsub">설교 4,786편</small></div>
+    <nav class="tabs" role="tablist" aria-label="찾는 방법">
+      <button role="tab" data-tab="topic" aria-selected="true">주제 탐구</button>
+      <button role="tab" data-tab="word" aria-selected="false">단어 검색</button>
+      <button role="tab" data-tab="bible" aria-selected="false">본문별</button>
+      <button role="tab" data-tab="date" aria-selected="false">날짜별</button>
+      <button role="tab" data-tab="fav" aria-selected="false">즐겨찾기</button>
+    </nav>
+    <div class="loadstat" id="loadstat"><span id="loadtxt">목록을 불러오는 중…</span><span class="bar"><i id="loadbar"></i></span></div>
+  </header>
+  <div class="main">
+    <section class="pane work" id="work" aria-live="polite"></section>
+    <article class="pane reader" id="reader"></article>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+"use strict";
+var BOOKS=["창세기","출애굽기","레위기","민수기","신명기","여호수아","사사기","룻기","사무엘상","사무엘하","열왕기상","열왕기하","역대상","역대하","에스라","느헤미야","에스더","욥기","시편","잠언","전도서","아가","이사야","예레미야","예레미야 애가","에스겔","다니엘","호세아","요엘","아모스","오바댜","요나","미가","나훔","하박국","스바냐","학개","스가랴","말라기","마태복음","마가복음","누가복음","요한복음","사도행전","로마서","고린도전서","고린도후서","갈라디아서","에베소서","빌립보서","골로새서","데살로니가전서","데살로니가후서","디모데전서","디모데후서","디도서","빌레몬서","히브리서","야고보서","베드로전서","베드로후서","요한1서","요한2서","요한3서","유다서","요한계시록"];
+var ABBR=["창","출","레","민","신","수","삿","룻","삼상","삼하","왕상","왕하","대상","대하","스","느","에","욥","시","잠","전","아","사","렘","애","겔","단","호","욜","암","옵","욘","미","나","합","습","학","슥","말","마","막","눅","요","행","롬","고전","고후","갈","엡","빌","골","살전","살후","딤전","딤후","딛","몬","히","약","벧전","벧후","요일","요이","요삼","유","계"];
+var DAYS="일월화수목금토";
+var RENDER={};
+var IDX=[], CHUNKS=[], TEXT={}, CHUNK_OF=[], loadingAll=null, NCH=15;
+var $=function(s,r){return (r||document).querySelector(s)};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})};
+var state={tab:"topic",cur:null,hl:[],hit:0};
+function toast(m){var t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},2200)}
+function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||"null");localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+
+/* ---------- formatting ---------- */
+function fmtDate(o){if(!o.d)return "날짜 미상";return o.d.slice(0,4)+". "+(+o.d.slice(4,6))+". "+(+o.d.slice(6,8))+". ("+(o.w||"")+")"}
+function fmtRef(o,short){if(o.b<0)return "";var b=short?ABBR[o.b]:BOOKS[o.b];if(!o.c)return b;var s=b+" "+o.c+(o.v?":"+o.v:"");if(o.c2!==o.c)s+="–"+o.c2+":"+o.v2;else if(o.v2&&o.v2!==o.v)s+="–"+o.v2;return s}
+function line2(o){return [fmtRef(o,true),fmtDate(o),o.s].filter(Boolean).join(" · ")}
+function citation(o){return "백영희, 「"+o.t+"」, "+fmtRef(o)+", "+(o.d?o.d.slice(0,4)+". "+(+o.d.slice(4,6))+". "+(+o.d.slice(6,8))+". "+(o.w?o.w+"요일":"")+(o.s?" "+o.s:""):"날짜 미상")+". ("+o.f+")"}
+
+/* ---------- data loading ---------- */
+function setLoad(txt,p){$("#loadtxt").textContent=txt;$("#loadbar").style.width=Math.round((p||0)*100)+"%"}
+async function idbGet(k){try{return await new Promise(function(res){var r=indexedDB.open("byh-sermons",1);r.onupgradeneeded=function(){r.result.createObjectStore("c")};r.onsuccess=function(){try{var g=r.result.transaction("c").objectStore("c").get(k);g.onsuccess=function(){res(g.result||null)};g.onerror=function(){res(null)}}catch(e){res(null)}};r.onerror=function(){res(null)}})}catch(e){return null}}
+async function idbPut(k,v){try{await new Promise(function(res){var r=indexedDB.open("byh-sermons",1);r.onupgradeneeded=function(){r.result.createObjectStore("c")};r.onsuccess=function(){try{var tx=r.result.transaction("c","readwrite");tx.objectStore("c").put(v,k);tx.oncomplete=res;tx.onerror=res}catch(e){res()}};r.onerror=res})}catch(e){}}
+async function gunzipToText(buf){var u=new Uint8Array(buf);if(u[0]===0x1f&&u[1]===0x8b&&"DecompressionStream" in window){var s=new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"));return await new Response(s).text()}return new TextDecoder().decode(buf)}
+var chunkPromises={};
+function loadChunk(k){
+  if(chunkPromises[k])return chunkPromises[k];
+  chunkPromises[k]=(async function(){
+    var key="v1-c"+k, buf=await idbGet(key);
+    if(!buf){var r=await fetch("data/c"+String(k).padStart(2,"0")+".bin");if(!r.ok)throw new Error("자료 파일을 받지 못했습니다 ("+r.status+")");buf=await r.arrayBuffer();idbPut(key,buf)}
+    var arr=JSON.parse(await gunzipToText(buf));var st=CHUNKS[k][0];
+    for(var i=0;i<arr.length;i++)TEXT[st+i]=arr[i];
+    return true})();
+  chunkPromises[k].catch(function(){delete chunkPromises[k]});
+  return chunkPromises[k];
+}
+function loadAll(){
+  if(loadingAll)return loadingAll;
+  var done=0;setLoad("전체 원문 준비 중 0/"+NCH,0);
+  loadingAll=Promise.all(CHUNKS.map(function(_,k){return loadChunk(k).then(function(){done++;setLoad(done<NCH?"전체 원문 준비 중 "+done+"/"+NCH:"전체 원문 준비 완료",done/NCH)})})).catch(function(e){loadingAll=null;setLoad("원문을 받지 못했습니다. 다시 검색하면 이어서 받습니다.",0);throw e});
+  return loadingAll;
+}
+async function getText(i){if(TEXT[i]===undefined)await loadChunk(IDX[i].k);return TEXT[i]}
+
+/* ---------- search core ---------- */
+function termRe(t){t=t.replace(/\s+/g,"");var parts=Array.from(t).map(function(c){return c.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")});return parts.join("\\s*")}
+function buildRe(terms){return new RegExp(terms.map(function(t){return "("+termRe(t)+")"}).join("|"),"g")}
+function filterOK(o,f){if(!f)return true;if(f.book!==""&&f.book!=null&&o.b!==+f.book)return false;var y=o.d?+o.d.slice(0,4):0;if(f.y1&&(!y||y<+f.y1))return false;if(f.y2&&(!y||y>+f.y2))return false;if(f.sv&&o.s.indexOf(f.sv)<0)return false;if(f.testament==="ot"&&!(o.b>=0&&o.b<39))return false;if(f.testament==="nt"&&!(o.b>=39))return false;return true}
+/* returns [{i,counts[],total,pos:[[start,end,termIdx]]}] */
+function runSearch(terms,f,needAll){
+  var re=buildRe(terms),out=[];
+  for(var i=0;i<IDX.length;i++){
+    var o=IDX[i];if(!filterOK(o,f))continue;var t=TEXT[i];if(!t)continue;
+    re.lastIndex=0;var m,counts=terms.map(function(){return 0}),pos=[];
+    while((m=re.exec(t))){var ti=0;for(var g=1;g<m.length;g++)if(m[g]!==undefined){ti=g-1;break}counts[ti]++;if(pos.length<400)pos.push([m.index,m.index+m[0].length,ti]);if(m[0].length===0)re.lastIndex++}
+    var tot=counts.reduce(function(a,b){return a+b},0);
+    if(!tot)continue;
+    if(needAll&&counts.some(function(c){return !c}))continue;
+    out.push({i:i,counts:counts,total:tot,pos:pos});
+  }
+  return out;
+}
+function snippetAt(t,s,e,w){w=w||70;var a=Math.max(0,s-w),b=Math.min(t.length,e+w);while(a>0&&a>s-w-12&&!/[\s.?!]/.test(t[a-1]))a--;return (a>0?"…":"")+t.slice(a,b).replace(/\n/g," ")+(b<t.length?"…":"")}
+function hlHTML(s,terms){var re=buildRe(terms);var out="",last=0,m;re.lastIndex=0;while((m=re.exec(s))){out+=esc(s.slice(last,m.index))+"<mark>"+esc(m[0])+"</mark>";last=m.index+m[0].length;if(!m[0].length)re.lastIndex++}return out+esc(s.slice(last))}
+/* pick up to n windows spread across a sermon, densest first */
+function bestWindows(r,t,n,w){
+  var ps=r.pos.slice(),wins=[];
+  ps.forEach(function(p){var c=0,ds={};r.pos.forEach(function(q){if(Math.abs(q[0]-p[0])<w){c++;ds[q[2]]=1}});p.score=c+Object.keys(ds).length*2});
+  ps.sort(function(a,b){return b.score-a.score});
+  for(var k=0;k<ps.length&&wins.length<n;k++){var p=ps[k];if(wins.some(function(x){return Math.abs(x[0]-p[0])<w*2}))continue;wins.push([p[0],p[1]])}
+  return wins.sort(function(a,b){return a[0]-b[0]});
+}
+
+/* ---------- UI shell ---------- */
+document.querySelectorAll("nav.tabs button").forEach(function(b){b.addEventListener("click",function(){setTab(b.dataset.tab)})});
+function setTab(t){state.tab=t;document.querySelectorAll("nav.tabs button").forEach(function(b){b.setAttribute("aria-selected",b.dataset.tab===t?"true":"false")});document.body.classList.remove("reading");store("byh-tab",t);RENDER[t]()}
+function filtersHTML(id){var bo='<option value="">성경 전체</option><option value="ot">구약만</option><option value="nt">신약만</option>'+BOOKS.map(function(b,i){return '<option value="'+i+'">'+b+'</option>'}).join("");
+  return '<div class="filters" id="'+id+'"><select id="'+id+'-book" aria-label="성경">'+bo+'</select><input id="'+id+'-y1" inputmode="numeric" placeholder="연도부터" aria-label="시작 연도"><input id="'+id+'-y2" inputmode="numeric" placeholder="연도까지" aria-label="끝 연도"><select id="'+id+'-sv" aria-label="예배"><option value="">예배 전체</option><option>새벽</option><option>오전</option><option>오후</option><option>저녁</option><option>집회</option><option>권찰회</option><option>교역자회</option></select></div>'}
+function readFilters(id){var b=$("#"+id+"-book").value,f={book:"",testament:""};if(b==="ot"||b==="nt")f.testament=b;else f.book=b;f.y1=normYear($("#"+id+"-y1").value);f.y2=normYear($("#"+id+"-y2").value);f.sv=$("#"+id+"-sv").value;return f}
+function normYear(v){v=(v||"").trim();if(!v)return "";var n=+v;if(n<100)n+=1900;return n}
+function listItem(o,extra,cls){return '<li class="'+(cls||"")+'" data-i="'+o.i+'"><button type="button" data-open="'+o.i+'"><span class="t1">'+esc(o.t)+'</span><span class="t2">'+esc(line2(o))+'</span>'+(extra||"")+'</button></li>'}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-open]");if(b){e.preventDefault();openSermon(+b.dataset.open,b.dataset.hl?JSON.parse(b.dataset.hl):state.lastTerms||[],b.dataset.at?+b.dataset.at:null)}});
+
+/* ---------- 본문별 ---------- */
+var bibleSel={b:-1,c:0};
+function parseRef(q){q=q.replace(/\s+/g," ").trim();var m=q.match(/^([1-3]?\s?[가-힣]+(?:\s?[1-3]서)?)\s*(\d+)?\s*(?:[:장편.]\s*(\d+))?/);if(!m)return null;var name=m[1].replace(/\s/g,"");var bi=ABBR.indexOf(name);if(bi<0)bi=BOOKS.findIndex(function(b){return b.replace(/\s/g,"")===name});if(bi<0)bi=BOOKS.findIndex(function(b){return b.replace(/\s/g,"").indexOf(name)===0});if(bi<0)return null;return {b:bi,c:m[2]?+m[2]:0,v:m[3]?+m[3]:0}}
+function covers(o,c,v){if(o.c===0)return false;var s=o.c*1000+(o.v||0),e=o.c2*1000+(o.v2||o.v||999);if(o.c2===o.c&&!o.v2)e=o.c*1000+(o.v||999);var x=c*1000+(v||0);if(!v)return o.c<=c&&c<=o.c2;return s<=x&&x<=e}
+RENDER.bible=function(){
+  var cnt=BOOKS.map(function(){return 0});IDX.forEach(function(o){if(o.b>=0)cnt[o.b]++});
+  var h='<h2 class="ph">본문별로 찾기</h2><div class="row"><input class="field" id="refq" placeholder="예: 창 3:15, 롬 6장, 요한계시록 20" aria-label="성경 본문"><button class="btn" id="refgo" type="button">찾기</button></div><p class="hint">책 이름(줄임말 가능)과 장·절을 넣거나 아래에서 고르세요.</p>';
+  h+='<div class="sect">구약</div><div class="grid66">'+BOOKS.slice(0,39).map(function(b,i){return '<button type="button" data-b="'+i+'" '+(cnt[i]?"":"disabled")+' class="'+(bibleSel.b===i?"sel":"")+'">'+b+'<span>'+cnt[i]+'</span></button>'}).join("")+'</div>';
+  h+='<div class="sect">신약</div><div class="grid66">'+BOOKS.slice(39).map(function(b,j){var i=j+39;return '<button type="button" data-b="'+i+'" '+(cnt[i]?"":"disabled")+' class="'+(bibleSel.b===i?"sel":"")+'">'+b+'<span>'+cnt[i]+'</span></button>'}).join("")+'</div><div id="bibleres"></div>';
+  $("#work").innerHTML=h;
+  $("#work").querySelectorAll(".grid66 button").forEach(function(b){b.addEventListener("click",function(){bibleSel={b:+b.dataset.b,c:0};RENDER.bible();$("#bibleres").scrollIntoView({block:"start"})})});
+  var go=function(){var r=parseRef($("#refq").value);if(!r){toast("성경 책 이름을 알아보지 못했습니다. 예: 창 3:15");return}bibleSel=r;RENDER.bible();$("#bibleres").scrollIntoView({block:"start"})};
+  $("#refgo").addEventListener("click",go);$("#refq").addEventListener("keydown",function(e){if(e.key==="Enter")go()});
+  if(bibleSel.b>=0)renderBook();
+};
+function renderBook(){
+  var b=bibleSel.b,items=IDX.filter(function(o){return o.b===b});
+  var chs={};items.forEach(function(o){for(var c=o.c;c<=Math.max(o.c,o.c2);c++){chs[c]=(chs[c]||0)+1}});
+  var keys=Object.keys(chs).map(Number).sort(function(a,b){return a-b});
+  var h='<div class="sect">'+BOOKS[b]+' · 설교 '+items.length+'편</div><div class="chgrid"><button type="button" data-c="0" class="'+(bibleSel.c?"":"sel")+'">전체<span>'+items.length+'</span></button>'+keys.map(function(c){return '<button type="button" data-c="'+c+'" class="'+(bibleSel.c===c?"sel":"")+'">'+c+(b===18?"편":"장")+'<span>'+chs[c]+'</span></button>'}).join("")+'</div>';
+  var sel=items;if(bibleSel.c)sel=items.filter(function(o){return covers(o,bibleSel.c,bibleSel.v)});
+  sel.sort(function(x,y){return (x.c-y.c)||(x.v-y.v)||(x.d<y.d?-1:1)});
+  var title=bibleSel.c?BOOKS[b]+" "+bibleSel.c+(bibleSel.v?":"+bibleSel.v:"")+" 을(를) 다룬 설교 "+sel.length+"편":"";
+  if(bibleSel.v&&!sel.length){var near=items.filter(function(o){return o.c===bibleSel.c||o.c2===bibleSel.c});title=BOOKS[b]+" "+bibleSel.c+":"+bibleSel.v+" 을 본문으로 한 설교는 없습니다. 같은 장의 설교 "+near.length+"편";sel=near}
+  h+=(title?'<p class="hint">'+esc(title)+'</p>':"")+'<ul class="list">'+sel.map(function(o){return listItem(o)}).join("")+'</ul>';
+  $("#bibleres").innerHTML=h;
+  $("#bibleres").querySelectorAll(".chgrid button").forEach(function(x){x.addEventListener("click",function(){bibleSel.c=+x.dataset.c;bibleSel.v=0;renderBook()})});
+}
+
+/* ---------- 날짜별 ---------- */
+var dateSel={y:0,m:0,d:""};
+RENDER.date=function(){
+  var ys={};IDX.forEach(function(o){if(o.d){var y=o.d.slice(0,4);ys[y]=(ys[y]||0)+1}});
+  var yk=Object.keys(ys).sort();if(!dateSel.y)dateSel.y=+yk[yk.length-1];
+  var h='<h2 class="ph">날짜별로 찾기</h2><div class="row"><input class="field" id="dq" placeholder="예: 89.8.11, 1985-3-31, 1987년 5월" aria-label="날짜"><button class="btn" id="dgo" type="button">찾기</button></div><p class="hint">연도를 고르고 달력에서 날짜를 누르세요. 칸 안의 글자는 예배(새·전·후·저·집)입니다.</p><div class="years">'+yk.map(function(y){return '<button type="button" data-y="'+y+'" class="'+(+y===dateSel.y?"sel":"")+'">'+y+' <span class="t2">'+ys[y]+'</span></button>'}).join("")+'</div><div id="dateres"></div>';
+  $("#work").innerHTML=h;
+  $("#work").querySelectorAll(".years button").forEach(function(b){b.addEventListener("click",function(){dateSel={y:+b.dataset.y,m:0,d:""};RENDER.date()})});
+  var go=function(){var v=$("#dq").value.trim(),m=v.match(/(\d{2,4})\D+(\d{1,2})(?:\D+(\d{1,2}))?/);if(!m){toast("날짜 형식을 알아보지 못했습니다. 예: 89.8.11");return}var y=+m[1];if(y<100)y+=1900;dateSel={y:y,m:+m[2],d:m[3]?String(y)+String(+m[2]).padStart(2,"0")+String(+m[3]).padStart(2,"0"):""};RENDER.date()};
+  $("#dgo").addEventListener("click",go);$("#dq").addEventListener("keydown",function(e){if(e.key==="Enter")go()});
+  renderYear();
+};
+function svShort(s){if(!s)return "·";if(s.indexOf("집회")>=0)return "집";return {"새벽":"새","오전":"전","오후":"후","저녁":"저"}[s]||s.slice(0,1)}
+function renderYear(){
+  var y=String(dateSel.y),items=IDX.filter(function(o){return o.d.slice(0,4)===y});
+  var mc={};items.forEach(function(o){var m=+o.d.slice(4,6);mc[m]=(mc[m]||0)+1});
+  if(!dateSel.m){var ms=Object.keys(mc).map(Number).sort(function(a,b){return a-b});dateSel.m=ms[0]||1}
+  var h='<div class="months">'+[1,2,3,4,5,6,7,8,9,10,11,12].map(function(m){return '<button type="button" data-m="'+m+'" '+(mc[m]?"":"disabled")+' class="'+(dateSel.m===m?"sel":"")+'">'+m+'월<span>'+(mc[m]||0)+'</span></button>'}).join("")+'</div>';
+  var first=new Date(dateSel.y,dateSel.m-1,1),days=new Date(dateSel.y,dateSel.m,0).getDate(),byDay={};
+  items.forEach(function(o){if(+o.d.slice(4,6)===dateSel.m){var d=+o.d.slice(6,8);(byDay[d]=byDay[d]||[]).push(o)}});
+  h+='<div class="cal">'+Array.from(DAYS).map(function(d){return '<div class="dh">'+d+'</div>'}).join("");
+  for(var k=0;k<first.getDay();k++)h+='<span></span>';
+  for(var d=1;d<=days;d++){var L=byDay[d]||[],key=y+String(dateSel.m).padStart(2,"0")+String(d).padStart(2,"0");h+='<button type="button" data-d="'+key+'" '+(L.length?"":"disabled")+' class="'+(dateSel.d===key?"sel":"")+'">'+d+(L.length?'<i>'+L.map(function(o){return svShort(o.s)}).join("")+'</i>':"")+'</button>'}
+  h+='</div>';
+  var sel=dateSel.d?items.filter(function(o){return o.d===dateSel.d}):items.filter(function(o){return +o.d.slice(4,6)===dateSel.m});
+  sel.sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:0});
+  h+='<p class="hint">'+(dateSel.d?fmtDate(sel[0]||{d:dateSel.d,w:""}):dateSel.y+"년 "+dateSel.m+"월")+' · 설교 '+sel.length+'편</p><ul class="list">'+sel.map(function(o){return listItem(o)}).join("")+'</ul>';
+  if(dateSel.d&&!sel.length)h+='<p class="empty">이 날짜의 설교는 설교록에 없습니다.</p>';
+  $("#dateres").innerHTML=h;
+  $("#dateres").querySelectorAll(".months button").forEach(function(b){b.addEventListener("click",function(){dateSel.m=+b.dataset.m;dateSel.d="";renderYear()})});
+  $("#dateres").querySelectorAll(".cal button[data-d]").forEach(function(b){b.addEventListener("click",function(){dateSel.d=b.dataset.d;renderYear();var L=IDX.filter(function(o){return o.d===dateSel.d});if(L.length===1)openSermon(L[0].i,[])})});
+}
+
+/* ---------- 단어 검색 ---------- */
+var wordState={q:"",mode:"all",sort:"rel",res:null,terms:[]};
+RENDER.word=function(){
+  var h='<h2 class="ph">단어 검색</h2><div class="row"><input class="field" id="wq" placeholder="예: 십일조, 건설구원 상급" aria-label="검색어" value="'+esc(wordState.q)+'"><button class="btn" id="wgo" type="button">검색</button></div><div class="row" style="margin-top:.4rem;font-size:.85rem"><label><input type="radio" name="wm" value="all" '+(wordState.mode==="all"?"checked":"")+'> 모든 단어 포함</label><label><input type="radio" name="wm" value="any" '+(wordState.mode==="any"?"checked":"")+'> 하나라도 포함</label></div><p class="hint">띄어쓰기는 무시하고 찾습니다. 여러 단어는 빈칸으로, 띄어 쓴 말을 한 덩어리로 찾으려면 "기본 구원"처럼 따옴표로 묶으세요.</p>'+filtersHTML("wf")+'<div id="wordres"></div>';
+  $("#work").innerHTML=h;
+  var go=function(){wordState.q=$("#wq").value.trim();wordState.mode=document.querySelector('input[name=wm]:checked').value;doWord()};
+  $("#wgo").addEventListener("click",go);$("#wq").addEventListener("keydown",function(e){if(e.key==="Enter")go()});
+  if(wordState.res)drawWord();
+};
+function splitTerms(q){var t=[],m,re=/"([^"]+)"|(\S+)/g;while((m=re.exec(q)))t.push((m[1]||m[2]).trim());return t.filter(Boolean)}
+async function doWord(){
+  var terms=splitTerms(wordState.q);if(!terms.length)return;
+  $("#wordres").innerHTML='<p class="empty">원문을 준비하고 있습니다. 처음 한 번만 약 49MB를 받고, 그다음부터는 휴대폰에 저장된 자료로 인터넷 없이 찾습니다.</p>';
+  try{await loadAll()}catch(e){$("#wordres").innerHTML='<p class="note">'+esc(e.message)+'</p>';return}
+  var f=readFilters("wf");wordState.terms=terms;state.lastTerms=terms;
+  wordState.res=runSearch(terms,f,wordState.mode==="all"&&terms.length>1);
+  drawWord();
+}
+function sortRes(res,how){var r=res.slice();if(how==="rel")r.sort(function(a,b){return b.score-a.score||b.total-a.total});else if(how==="date")r.sort(function(a,b){return IDX[a.i].d<IDX[b.i].d?-1:1});else r.sort(function(a,b){var x=IDX[a.i],y=IDX[b.i];return (x.b-y.b)||(x.c-y.c)||(x.v-y.v)});return r}
+function scoreRes(res,weights){res.forEach(function(r){var n=IDX[r.i].n||10000,s=0;r.counts.forEach(function(c,k){s+=(weights?weights[k]:1)*Math.log(1+c)});var dist=r.counts.filter(Boolean).length;r.score=s*(1+0.25*(dist-1))+r.total/Math.sqrt(n/2000)*0.4})}
+function yearSpark(res){
+  var ys={};res.forEach(function(r){var d=IDX[r.i].d;if(d){var y=+d.slice(0,4);if(y>=1979)ys[y]=(ys[y]||0)+1}});
+  var Y=[];for(var y=1979;y<=1989;y++)Y.push(y);var mx=Math.max.apply(null,Y.map(function(y){return ys[y]||0}).concat([1]));var W=320,bw=W/Y.length;
+  return '<svg class="spark" viewBox="0 0 '+W+' 74" role="img" aria-label="연도별 설교 수">'+Y.map(function(y,k){var h=Math.round(((ys[y]||0)/mx)*40);return '<rect x="'+(k*bw+3)+'" y="'+(56-h)+'" width="'+(bw-6)+'" height="'+Math.max(h,1)+'"><title>'+y+'년 '+(ys[y]||0)+'편</title></rect><text x="'+(k*bw+bw/2)+'" y="70" text-anchor="middle">'+String(y).slice(2)+'</text>'+(ys[y]?'<text x="'+(k*bw+bw/2)+'" y="'+(52-h)+'" text-anchor="middle">'+ys[y]+'</text>':"")}).join("")+'</svg>';
+}
+function drawWord(){
+  var res=wordState.res,terms=wordState.terms;scoreRes(res);
+  var tot=res.reduce(function(a,r){return a+r.total},0);
+  var h='<p class="hint"><b>'+res.length+'편</b>의 설교에서 '+tot+'번 나옵니다. '+terms.map(function(t,k){var n=res.reduce(function(a,r){return a+(r.counts[k]?1:0)},0);return "「"+esc(t)+"」 "+n+"편"}).join(", ")+'</p>'+(res.length?yearSpark(res):"")+'<div class="row" style="font-size:.83rem">정렬 <select id="wsort" class="field" style="flex:0 0 auto;min-width:7rem"><option value="rel">관련도</option><option value="date">날짜순</option><option value="bible">성경순</option></select></div><ul class="list" id="wlist"></ul>';
+  $("#wordres").innerHTML=h;$("#wsort").value=wordState.sort;
+  $("#wsort").addEventListener("change",function(){wordState.sort=this.value;fillList()});
+  fillList();
+  function fillList(){
+    var r=sortRes(res,wordState.sort),N=Math.min(r.length,300);
+    $("#wlist").innerHTML=r.slice(0,N).map(function(x){var o=IDX[x.i],t=TEXT[x.i],w=bestWindows(x,t,2,90);return listItem(o,'<span class="cnt">'+x.total+'회</span>'+w.map(function(p){return '<span class="snip">'+hlHTML(snippetAt(t,p[0],p[1]),terms)+'</span>'}).join(""))}).join("")+(r.length>N?'<li class="empty">관련도 상위 '+N+'편만 보여 줍니다. 조건을 좁혀 보세요.</li>':"");
+  }
+}
+
+/* ---------- 주제 탐구 ---------- */
+var topicState={q:"",terms:[],on:{},res:null,mentions:null,summary:"",passages:[]};
+var SAMPLE=null,DL=null;
+RENDER.topic=function(){
+  var h='<h2 class="ph">주제 탐구</h2><div class="row"><input class="field" id="tq" placeholder="예: 십일조, 주일 성수, 순교, 기도의 응답" aria-label="주제" value="'+esc(topicState.q)+'"><button class="btn" id="tgo" type="button">탐구</button></div><p class="hint">주제를 넣으면 백 목사님이 그 주제를 말할 때 쓰신 표현들로 넓혀 찾고, 많이 다룬 설교를 추천하고, 언급한 대목을 모아 보여 줍니다.</p>'+filtersHTML("tf")+'<div id="topicterms"></div><div id="topicres"></div>';
+  $("#work").innerHTML=h;
+  var go=function(){var q=$("#tq").value.trim();if(!q)return;topicState={q:q,terms:[],on:{},res:null,summary:"",passages:[]};startTopic()};
+  $("#tgo").addEventListener("click",go);$("#tq").addEventListener("keydown",function(e){if(e.key==="Enter")go()});
+  if(topicState.terms.length){drawTerms();if(topicState.res)drawTopic()}
+};
+var STOP=new Set("그것 이것 저것 우리 여러분 하나님 예수님 그래서 그러니까 그러면 그런데 그러나 그렇게 이렇게 있는 없는 하는 것을 것이 것은 것이오 합니다 있습니다 됩니다 그 이 저 또 다 안 못 한 할 것 수 때 데 줄 말 좀 더 잘 거 게 내 제 네 니 곧 또한 그리고 하고 해서 하면 하나 다시 지금 아니라 아니고 무엇 어떻게 왜 이런 그런 저런 하는데 했습니다 되어 가지고 있어요 있어 같은 같이 대해서 위해서 때문에 말이오 말이에요".split(" "));
+async function startTopic(){
+  var q=topicState.q;var base=splitTerms(q);topicState.terms=base.slice();base.forEach(function(t){topicState.on[t]=true});
+  drawTerms(true);
+  $("#topicres").innerHTML='<p class="empty">원문을 준비하고 있습니다. 처음 한 번은 약 49MB를 받습니다.</p>';
+  var ai=suggestTerms(q);
+  try{await loadAll()}catch(e){$("#topicres").innerHTML='<p class="note">'+esc(e.message)+'</p>';return}
+  // co-occurrence suggestions from the corpus itself
+  var co=cooccur(base);co.forEach(function(t){if(topicState.terms.indexOf(t)<0){topicState.terms.push(t);topicState.on[t]=false}});
+  drawTerms(!!SAMPLE);runTopic();
+  var s=await ai;if(s&&s.length){var added=false;s.forEach(function(t){t=t.trim();if(t&&topicState.terms.indexOf(t)<0){topicState.terms.splice(base.length,0,t);topicState.on[t]=true;added=true}});drawTerms(false);if(added)runTopic()}else drawTerms(false);
+}
+function cooccur(terms){
+  var re=buildRe(terms),C=new Map(),seen=0;
+  for(var i=0;i<IDX.length&&seen<1500;i++){var t=TEXT[i];if(!t)continue;re.lastIndex=0;var m,k=0;while((m=re.exec(t))&&k<20){k++;seen++;var w=t.slice(Math.max(0,m.index-60),m.index+m[0].length+60);(w.match(/[가-힣]{2,6}/g)||[]).forEach(function(x){x=x.replace(/(을|를|이|가|은|는|에|의|도|로|으로|에게|에서|하고|이오|이요|입니다|합니다|했습니다|하는|한|해서|하면|이라|라는|이라는|에는|까지|부터|만)$/,"");if(x.length<2||STOP.has(x)||/(니라|노라|리라|하였|였으|았느|었느|겠느|하며|하여|하라|드리|으니|느냐|지마|시고|었다|았다|한다|하지|되지|리지|으면|라고|다고|오니|니까|는데|으며|어서|아서|에게|드리지)$/.test(x)||/^(하|되|있|없|그|이|저)/.test(x)&&x.length<3)return;C.set(x,(C.get(x)||0)+1)})}}
+  var base=terms.map(function(t){return t.replace(/\s/g,"")});
+  var cand=Array.from(C.entries()).filter(function(e){return e[1]>=4&&!base.some(function(b){return b.indexOf(e[0])>=0||e[0].indexOf(b)>=0})}).sort(function(a,b){return b[1]-a[1]}).slice(0,60);
+  var sample=[];for(var j=0;j<IDX.length;j+=12)if(TEXT[j])sample.push(TEXT[j]);
+  cand.forEach(function(e){var g=0;sample.forEach(function(t){var p=0;while((p=t.indexOf(e[0],p))>=0&&g<20000){g++;p+=e[0].length}});e.push(e[1]/Math.pow(g+3,0.75))});
+  return cand.sort(function(a,b){return b[2]-a[2]}).slice(0,8).map(function(e){return e[0]});
+}
+async function suggestTerms(q){
+  if(!SAMPLE)return null;
+  try{
+    var r=await SAMPLE.json('당신은 백영희 목사(1910–1989, 예수교장로회한국총공회)의 설교록을 검색하는 도우미입니다. 사용자가 탐구하려는 주제: "'+q+'".\n이 주제를 다룬 설교 대목을 원문 텍스트 검색으로 빠짐없이 찾기 위한 한국어 검색어 5~9개를 고르세요. 백 목사가 1970~80년대 설교에서 실제로 썼을 법한 표현(옛 말투·교회 용어 포함, 예: 연보, 바치다, 주일성수, 권찰)과 동의어·하위 개념을 포함하되, 너무 흔해서 주제와 무관한 대목까지 잡히는 말(예: 하나님, 믿음 단독)은 빼세요. 각 검색어는 1~3어절. JSON 배열만 답하세요. 예: ["십일조","십분의 일","연보","헌금"]',{modelTier:"quick"});
+    if(Array.isArray(r))return r.filter(function(x){return typeof x==="string"}).slice(0,10);
+  }catch(e){if(e&&e.code==="not_granted")SAMPLE=null}
+  return null;
+}
+function drawTerms(pending){
+  var h='<div class="sect">검색어 '+(pending&&SAMPLE?'· 관련 표현을 찾는 중…':'· 눌러서 켜고 끄기')+'</div><div class="chips">'+topicState.terms.map(function(t){return '<button type="button" class="chip '+(topicState.on[t]?"on":"")+'" data-t="'+esc(t)+'">'+esc(t)+'</button>'}).join("")+'<span class="row" style="gap:.3rem"><input class="field" id="addterm" placeholder="검색어 추가" style="min-width:7rem;padding:.2rem .5rem;font-size:.83rem" aria-label="검색어 추가"></span></div>';
+  $("#topicterms").innerHTML=h;
+  $("#topicterms").querySelectorAll(".chip[data-t]").forEach(function(b){b.addEventListener("click",function(){var t=b.dataset.t;topicState.on[t]=!topicState.on[t];drawTerms(false);runTopic()})});
+  $("#addterm").addEventListener("keydown",function(e){if(e.key==="Enter"){var t=this.value.trim();if(t&&topicState.terms.indexOf(t)<0){topicState.terms.push(t);topicState.on[t]=true;drawTerms(false);runTopic()}}});
+}
+function runTopic(){
+  var terms=topicState.terms.filter(function(t){return topicState.on[t]});if(!terms.length){$("#topicres").innerHTML='<p class="empty">켜진 검색어가 없습니다.</p>';return}
+  var base=splitTerms(topicState.q),w=terms.map(function(t){return base.indexOf(t)>=0?3:1});
+  var res=runSearch(terms,readFilters("tf"),false);scoreRes(res,w);
+  topicState.res=res;topicState.active=terms;topicState.summary="";state.lastTerms=terms;drawTopic();
+}
+function drawTopic(){
+  var res=topicState.res,terms=topicState.active,r=sortRes(res,"rel");
+  var tot=res.reduce(function(a,x){return a+x.total},0);
+  var h='<p class="hint"><b>'+res.length+'편</b>의 설교에서 '+tot+'곳 언급. 연도별 설교 수:</p>'+(res.length?yearSpark(res):"");
+  h+='<div class="row">'+(SAMPLE?'<button class="btn" id="summ" type="button">가르침 정리하기</button>':'')+'<button class="btn ghost" id="ment" type="button">언급 대목 모아 보기</button>'+'<button class="btn ghost" id="save" type="button">자료집으로 저장</button>'+'</div>';
+  if(!SAMPLE)h+='';
+  h+='<div id="summout"></div><div class="sect">추천 설교 · 이 주제를 많이 다룬 순</div><ul class="list">'+r.slice(0,40).map(function(x){var o=IDX[x.i],t=TEXT[x.i],wn=bestWindows(x,t,1,120);var tags=x.counts.map(function(c,k){return c?esc(terms[k])+" "+c:""}).filter(Boolean).join(" · ");return listItem(o,'<span class="cnt">'+tags+'</span>'+wn.map(function(p){return '<span class="snip">'+hlHTML(snippetAt(t,p[0],p[1],110),terms)+'</span>'}).join(""))}).join("")+'</ul>'+(r.length>40?'<p class="hint">나머지 '+(r.length-40)+'편은 "언급 대목 모아 보기"에서 볼 수 있습니다.</p>':"");
+  $("#topicres").innerHTML=h;
+  $("#ment").addEventListener("click",drawMentions);
+  if($("#summ"))$("#summ").addEventListener("click",summarize);
+  if($("#save"))$("#save").addEventListener("click",saveDossier);
+  if(topicState.summary)showSummary(topicState.summary,true);
+}
+function collectPassages(maxSermons,perSermon,w){
+  var r=sortRes(topicState.res,"rel").slice(0,maxSermons),P=[];
+  r.forEach(function(x){var t=TEXT[x.i];bestWindows(x,t,perSermon,w).forEach(function(p){var a=Math.max(0,p[0]-w),b=Math.min(t.length,p[1]+w);while(a>0&&!/[.?!\n]/.test(t[a-1])&&p[0]-a<w+80)a--;while(b<t.length&&!/[.?!]/.test(t[b-1])&&b-p[1]<w+80)b++;P.push({i:x.i,at:p[0],text:t.slice(a,b).replace(/\n/g," ")})})});
+  return P;
+}
+function drawMentions(){
+  var terms=topicState.active,r=sortRes(topicState.res,"date");
+  var h='<div class="sect">언급 대목 · 날짜순 '+r.length+'편</div>';
+  h+=r.slice(0,250).map(function(x){var o=IDX[x.i],t=TEXT[x.i];var ws=bestWindows(x,t,3,140);return '<div style="margin:.8rem 0;border-bottom:1px solid var(--rule);padding-bottom:.6rem"><button type="button" class="btn ghost" style="padding:.2rem .5rem;font-size:.85rem;border:0;text-align:left" data-open="'+x.i+'">'+esc(o.t)+' <span class="t2">'+esc(line2(o))+'</span></button>'+ws.map(function(p){return '<p class="snip" style="margin:.3rem 0">'+hlHTML(snippetAt(t,p[0],p[1],160),terms)+' <a href="#" class="t2" data-open="'+x.i+'" data-at="'+p[0]+'">원문 위치로</a></p>'}).join("")+'</div>'}).join("")+(r.length>250?'<p class="hint">250편까지만 보여 줍니다. 필터로 좁혀 보세요.</p>':"");
+  $("#summout").innerHTML=h;$("#summout").scrollIntoView({block:"start"});
+}
+var summCtl=null;
+async function summarize(){
+  if(!SAMPLE)return;
+  var P=collectPassages(28,2,260);topicState.passages=P;
+  var src=P.map(function(p,k){var o=IDX[p.i];return "["+(k+1)+"] "+o.t+" / "+fmtRef(o)+" / "+(o.d?o.d.slice(0,4)+"."+(+o.d.slice(4,6))+"."+(+o.d.slice(6,8)):"")+" "+(o.s||"")+"\n"+p.text}).join("\n\n");
+  var prompt="다음은 백영희 목사(1910–1989)의 설교록에서 '"+topicState.q+"'에 관한 대목을 검색해 뽑은 원문 "+P.length+"개입니다. 녹취 원고라 구어체입니다.\n\n"+src+"\n\n위 원문만 근거로, 백 목사가 '"+topicState.q+"'에 대해 가르친 내용을 주제별로 정리하세요.\n규칙:\n- 한국어, 평서체. 3~6개의 소주제(### 제목)로 나누고 각 소주제마다 요점을 2~5개 bullet로.\n- 모든 요점 끝에 근거 원문 번호를 [3], [5][12]처럼 붙이세요. 원문에 없는 내용, 일반 신학 지식, 다른 목사의 견해는 넣지 마세요.\n- 핵심 표현은 원문 그대로 짧게 따옴표로 인용하세요(글자를 바꾸지 말 것).\n- 백 목사의 가르침을 존중하는 관점에서 설명하고 비판하지 마세요.\n- 맨 앞에 2문장 요약, 맨 끝에 '더 읽을 설교' 3편을 번호로 추천하세요.";
+  if(summCtl)summCtl.abort();summCtl=new AbortController();
+  var out=$("#summout");out.innerHTML='<div class="summary"><p class="t2">원문 '+P.length+'개를 읽고 정리하는 중입니다… (보통 20~60초)</p></div>';
+  try{
+    var res=await SAMPLE(prompt,{modelTier:"default",signal:summCtl.signal,onText:function(u){showSummary(u.text,false)}});
+    topicState.summary=res.text;showSummary(res.text,true);
+  }catch(e){if(e&&e.code==="cancelled")return;var msg=e&&e.code==="not_granted"?"Claude 사용을 허락하지 않아 정리할 수 없습니다.":e&&e.code==="rate_limited"?"요청이 많아 잠시 후 다시 눌러 주세요.":"정리하지 못했습니다: "+(e&&e.message||e);if(e&&e.text){topicState.summary=e.text;showSummary(e.text,true)}out.insertAdjacentHTML("beforeend",'<p class="note">'+esc(msg)+'</p>');if(e&&e.code==="not_granted"){SAMPLE=null}}
+}
+function mdLite(s){
+  var lines=s.split("\n"),h="",inUl=false;
+  lines.forEach(function(l){var t=l.trim();if(/^#{2,4}\s/.test(t)){if(inUl){h+="</ul>";inUl=false}h+="<h3>"+inl(t.replace(/^#+\s*/,""))+"</h3>"}else if(/^[-*•]\s/.test(t)){if(!inUl){h+="<ul>";inUl=true}h+="<li>"+inl(t.slice(2))+"</li>"}else if(/^\d+[.)]\s/.test(t)){if(!inUl){h+="<ul>";inUl=true}h+="<li>"+inl(t)+"</li>"}else if(t){if(inUl){h+="</ul>";inUl=false}h+="<p>"+inl(t)+"</p>"}});
+  if(inUl)h+="</ul>";return h;
+  function inl(x){return esc(x).replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/\[(\d+)\]/g,function(m,n){var p=topicState.passages[+n-1];if(!p)return m;var o=IDX[p.i];return '<a href="#" class="ref" data-open="'+p.i+'" data-at="'+p.at+'" title="'+esc(o.t+" · "+line2(o))+'">'+n+'</a>'})}
+}
+function showSummary(text,done){var out=$("#summout");if(!out)return;out.innerHTML='<div class="summary">'+mdLite(text)+(done?'<p class="t2" style="font-family:var(--sans)">번호를 누르면 근거가 된 설교 원문의 그 자리로 갑니다. Claude가 원문 '+topicState.passages.length+'개를 읽고 정리한 것이므로 중요한 내용은 원문으로 확인하세요.</p>':'')+'</div>'}
+async function saveDossier(){
+  var terms=topicState.active,r=sortRes(topicState.res,"rel"),q=topicState.q,fn=[],md="# 백영희 목사 설교록에 나타난 '"+q+"'\n\n검색어: "+terms.join(", ")+" · 관련 설교 "+r.length+"편\n\n";
+  if(topicState.summary){md+="## 정리 (Claude가 원문 "+topicState.passages.length+"개를 근거로 정리)\n\n"+topicState.summary.replace(/\[(\d+)\]/g,function(m,n){var p=topicState.passages[+n-1];return p?"[^"+n+"]":m})+"\n\n";topicState.passages.forEach(function(p,k){fn.push("[^"+(k+1)+"]: "+citation(IDX[p.i]))})}
+  md+="## 언급 대목 (관련도 순)\n\n";var c=fn.length;
+  r.slice(0,120).forEach(function(x){var o=IDX[x.i],t=TEXT[x.i];md+="### "+o.t+"\n\n";bestWindows(x,t,3,160).forEach(function(p){c++;md+="> "+snippetAt(t,p[0],p[1],200)+"[^"+c+"]\n\n";fn.push("[^"+c+"]: "+citation(o))})});
+  md+="\n---\n\n"+fn.join("\n\n")+"\n";
+  var fname="백영희_설교록_"+q.replace(/[\\/:*?"<>|\s]+/g,"_")+".md";
+  if(!DL){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([md],{type:"text/markdown;charset=utf-8"}));a.download=fname;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},2000);toast("저장했습니다 (다운로드 폴더)");return}
+  try{await DL.save({filename:"백영희_설교록_"+q.replace(/[\\/:*?"<>|\s]+/g,"_")+".md",data:md});toast("저장했습니다")}catch(e){if(e&&e.code==="declined")return;toast(e&&e.code==="unavailable"?"이 화면에서는 저장할 수 없습니다":"저장하지 못했습니다")}
+}
+
+/* ---------- 즐겨찾기 ---------- */
+function favs(){return store("byh-favs")||[]}
+RENDER.fav=function(){var F=favs(),R=store("byh-recent")||[];
+  var h='<h2 class="ph">즐겨찾기</h2>'+(F.length?'<ul class="list">'+F.map(function(i){return IDX[i]?listItem(IDX[i]):""}).join("")+'</ul>':'<p class="empty">설교를 연 뒤 ☆ 버튼을 누르면 여기에 모입니다. 이 기기의 브라우저에만 저장됩니다.</p>')+'<div class="sect">최근 본 설교</div>'+(R.length?'<ul class="list">'+R.map(function(i){return IDX[i]?listItem(IDX[i]):""}).join("")+'</ul>':'<p class="empty">아직 없습니다.</p>');
+  $("#work").innerHTML=h};
+
+/* ---------- reader ---------- */
+async function openSermon(i,terms,at){
+  var o=IDX[i];if(!o)return;state.cur=i;state.hl=(terms||[]).filter(Boolean);
+  document.body.classList.add("reading");
+  document.querySelectorAll("ul.list li").forEach(function(li){li.classList.toggle("cur",+li.dataset.i===i)});
+  var R=$("#reader");R.scrollTop=0;
+  R.innerHTML=headHTML(o)+'<div class="rbody"><p class="empty">원문을 불러오는 중…</p></div>';
+  var t;try{t=await getText(i)}catch(e){R.querySelector(".rbody").innerHTML='<p class="note">'+esc(e.message)+'</p>';return}
+  if(state.cur!==i)return;
+  var paras=t.split("\n"),html="",off=0,atP=-1;
+  paras.forEach(function(p,k){if(at!=null&&atP<0&&at>=off&&at<off+p.length+1)atP=k;html+='<p data-k="'+k+'">'+(state.hl.length?hlHTML(p,state.hl):esc(p))+'</p>';off+=p.length+1});
+  R.querySelector(".rbody").innerHTML=html;
+  var marks=R.querySelectorAll(".rbody mark");$("#hitn").textContent=marks.length?"찾은 곳 "+marks.length:"";$("#hitnav").hidden=!marks.length;state.hit=-1;
+  R.insertAdjacentHTML("beforeend",relatedHTML(o));
+  var rec=(store("byh-recent")||[]).filter(function(x){return x!==i});rec.unshift(i);store("byh-recent",rec.slice(0,30));
+  if(atP>=0){var el=R.querySelector('.rbody p[data-k="'+atP+'"]');var mk=el&&el.querySelector("mark");(mk||el).scrollIntoView({block:"center"});if(mk){mk.classList.add("now");state.hit=Array.prototype.indexOf.call(marks,mk)}}
+  else if(marks.length&&state.hl.length){/* stay at top so the header shows */}
+}
+function headHTML(o){var fav=favs().indexOf(o.i)>=0;return '<div class="rhead"><button type="button" class="back btn ghost" id="back" style="padding:.2rem .6rem;margin-bottom:.5rem">← 목록</button><div class="eb">'+esc(fmtRef(o))+'</div><h1>'+esc(o.t)+'</h1><div class="meta">'+esc(fmtDate(o))+(o.s?' · '+esc(o.s):'')+' · '+Math.round(o.n/100)/10+'천 자</div><div class="meta" style="font-size:.75rem;color:var(--faint)">'+esc(o.f)+'</div><div class="rtools"><button type="button" id="fav">'+(fav?"★ 즐겨찾기됨":"☆ 즐겨찾기")+'</button><button type="button" id="cite">출처 복사</button><button type="button" id="fsm" aria-label="글자 작게">가−</button><button type="button" id="fbg" aria-label="글자 크게">가+</button><span class="hitnav" id="hitnav" hidden><button type="button" id="hprev" aria-label="이전 찾은 곳">↑</button><span id="hitn"></span><button type="button" id="hnext" aria-label="다음 찾은 곳">↓</button></span></div></div>'}
+function relatedHTML(o){
+  var same=IDX.filter(function(x){return x.i!==o.i&&x.b===o.b&&o.c&&(covers(x,o.c,o.v)||covers(o,x.c,x.v))}).slice(0,12);
+  var day=IDX.filter(function(x){return x.i!==o.i&&o.d&&x.d===o.d});
+  var sorted=IDX.filter(function(x){return x.d}).sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:a.i-b.i});var k=sorted.indexOf(o),prev=k>0?sorted[k-1]:null,next=k>=0&&k<sorted.length-1?sorted[k+1]:null;
+  var h='<div class="related">';
+  if(prev||next)h+='<div class="row" style="justify-content:space-between">'+(prev?'<button type="button" class="btn ghost" data-open="'+prev.i+'">← '+esc(fmtDate(prev))+'</button>':'<span></span>')+(next?'<button type="button" class="btn ghost" data-open="'+next.i+'">'+esc(fmtDate(next))+' →</button>':'')+'</div>';
+  if(day.length)h+='<div class="sect">같은 날 설교</div><ul class="list">'+day.map(function(x){return listItem(x)}).join("")+'</ul>';
+  if(same.length)h+='<div class="sect">같은 본문의 다른 설교</div><ul class="list">'+same.map(function(x){return listItem(x)}).join("")+'</ul>';
+  return h+'</div>';
+}
+$("#reader").addEventListener("click",function(e){
+  var id=e.target.id,o=IDX[state.cur];
+  if(id==="back"){document.body.classList.remove("reading");return}
+  if(id==="fav"){var F=favs(),k=F.indexOf(o.i);if(k>=0)F.splice(k,1);else F.unshift(o.i);store("byh-favs",F);e.target.textContent=k>=0?"☆ 즐겨찾기":"★ 즐겨찾기됨";if(state.tab==="fav")RENDER.fav();return}
+  if(id==="cite"){var c=citation(o);if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(c).then(function(){toast("출처를 복사했습니다")},function(){prompt2(c)})}else prompt2(c);return}
+  if(id==="fsm"||id==="fbg"){var fs=parseFloat(getComputedStyle($("#reader")).getPropertyValue("--fs"))||1.06;fs=Math.min(1.6,Math.max(.85,fs+(id==="fbg"?.08:-.08)));$("#reader").style.setProperty("--fs",fs+"rem");store("byh-fs",fs);return}
+  if(id==="hprev"||id==="hnext"){var M=$("#reader").querySelectorAll(".rbody mark");if(!M.length)return;if(state.hit>=0&&M[state.hit])M[state.hit].classList.remove("now");state.hit=(state.hit+(id==="hnext"?1:-1)+M.length)%M.length;M[state.hit].classList.add("now");M[state.hit].scrollIntoView({block:"center"});$("#hitn").textContent=(state.hit+1)+" / "+M.length;return}
+});
+function prompt2(c){var R=$("#reader .rhead");var ta=document.createElement("textarea");ta.value=c;ta.style.width="100%";ta.rows=3;R.appendChild(ta);ta.select();toast("선택된 글을 복사하세요")}
+function welcome(){
+  var ys=IDX.filter(function(o){return o.d}).map(function(o){return +o.d.slice(0,4)});
+  var bk=new Set(IDX.map(function(o){return o.b}).filter(function(b){return b>=0}));
+  $("#reader").innerHTML='<div class="welcome"><div class="rhead" style="border:0;padding:0"><div class="eb">예수교장로회한국총공회 · 백영희 목사(1910–1989)</div></div><h1>백영희 설교록</h1><p>‘백영희 설교분류’ 폴더의 설교 녹취 원고를 성경 본문, 날짜, 단어, 주제로 찾아 읽는 서재입니다.</p><dl><div><dt>설교</dt><dd>'+IDX.length.toLocaleString()+'편</dd></div><div><dt>성경</dt><dd>'+bk.size+'권</dd></div><div><dt>기간</dt><dd>'+Math.min.apply(null,ys.filter(function(y){return y>1950}))+'–'+Math.max.apply(null,ys)+'</dd></div></dl><ol><li><b>주제 탐구</b>: “십일조”처럼 주제를 넣으면 관련 표현까지 넓혀 찾아 설교를 추천하고, 언급 대목을 모으고, 가르침을 정리합니다.</li><li><b>단어 검색</b>: 띄어쓰기와 상관없이 원문 전체에서 찾습니다.</li><li><b>본문별</b>: “창 3:15”처럼 넣거나 책과 장을 고릅니다.</li><li><b>날짜별</b>: “89.8.11”처럼 넣거나 달력에서 고릅니다.</li></ol></div>';
+}
+
+/* ---------- boot ---------- */
+(async function(){
+  try{
+    var r=await fetch("data/index.json");if(!r.ok)throw new Error(r.status);IDX=await r.json();
+    var st=0;for(var k=0;k<NCH;k++){var a=-1,b=-1;IDX.forEach(function(o){if(o.k===k){if(a<0)a=o.i;b=o.i}});CHUNKS.push([a,b])}
+    setLoad("목록 준비 완료 · 원문은 필요할 때 받습니다",0);
+  }catch(e){$("#work").innerHTML='<p class="note">설교 목록을 불러오지 못했습니다. 페이지를 새로 고쳐 주세요.</p>';setLoad("",0);return}
+  var fs=store("byh-fs");if(fs)$("#reader").style.setProperty("--fs",fs+"rem");
+  welcome();
+  var t=store("byh-tab");setTab(RENDER[t]?t:"topic");
+  setTimeout(function(){loadAll().then(function(){store("byh-ready",1);setLoad("오프라인 준비 완료 · 인터넷 없이 쓸 수 있습니다",1)}).catch(function(){})},1500);
+  if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}
+  if(window.claude&&window.claude.use){
+    window.claude.use("sample").then(function(s){SAMPLE=s;if(state.tab==="topic"&&topicState.res)drawTopic()}).catch(function(){});
+    window.claude.use("downloads").then(function(d){DL=d;if(state.tab==="topic"&&topicState.res)drawTopic()}).catch(function(){});
+  }
+})();
+})();
+</script>
+
+</body></html>
